@@ -1,18 +1,108 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Module site</title>
-  </head>
-  <body>
-    <h1>Module site</h1>
-    <p>
-      Everything in this <code>web/</code> folder is published to this site on
-      every push to <code>main</code>. Replace this page with your own
-      <code>index.html</code> — for example a map exported with
-      <code>leafmap</code> — and drop any COGs or GeoJSON files it loads
-      alongside it.
-    </p>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oakland Urban Ecology & Redlining Analysis</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            color: #222; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f9fa; 
+        }
+        header { 
+            text-align: center; 
+            padding: 40px 0 20px 0; 
+            border-bottom: 2px solid #2c3e50; 
+            margin-bottom: 30px; 
+        }
+        h1 { color: #2c3e50; font-size: 2.2em; }
+        h2 { color: #2980b9; margin-top: 35px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+        .card { 
+            background: #fff; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); 
+            margin-bottom: 25px; 
+        }
+        img { 
+            max-width: 100%; 
+            height: auto; 
+            display: block; 
+            margin: 20px auto; 
+            border-radius: 6px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        blockquote { 
+            background: #e8f4f8; 
+            border-left: 5px solid #2980b9; 
+            margin: 20px 0; 
+            padding: 15px 20px; 
+            font-style: italic; 
+            border-radius: 0 6px 6px 0; 
+        }
+        .caption { 
+            text-align: center; 
+            font-size: 0.9em; 
+            color: #666; 
+            font-style: italic; 
+            margin-bottom: 20px; 
+        }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Structural Racism and Urban Ecology in Oakland, CA</h1>
+        <p>Analyzing the Ecological Legacy of Redlining using STAC Satellite Imagery</p>
+    </header>
+
+    <div class="card">
+        <h2>Scientific Context & Background</h2>
+        <p>In August 2020, Christopher Schell and colleagues published a landmark review in <em>Science</em> establishing that systemic racism and classism are primary drivers of ecological and evolutionary dynamics in urban ecosystems[cite: 1]. Historical housing policies—specifically Home Owners' Loan Corporation (HOLC) redlining maps from the 1930s—systematically divested from communities of color, creating enduring environmental inequities across American cities[cite: 1].</p>
+        
+        <blockquote>
+            "Racism acts as structural violence against our natural world." — Christopher Schell[cite: 1]
+        </blockquote>
+        
+        <p>This project investigates how historical HOLC redlining grades ('A' Best, 'B' Still Desirable, 'C' Definitely Declining, 'D' Hazardous) directly drive modern urban vegetation density and landscape heterogeneity in <strong>Oakland, California</strong>[cite: 1].</p>
+    </div>
+
+    <div class="card">
+        <h2>Spatial Data Methodology</h2>
+        <p>The analysis follows a reproducible spatial data processing workflow in Python:</p>
+        <ul>
+            <li><strong>Vector Data Management:</strong> Historical HOLC redlining polygons for Oakland were loaded and filtered using <code>Ibis</code> and <code>GeoPandas</code>, then visualized interactively with <code>Leafmap</code>[cite: 17].</li>
+            <li><strong>Raster STAC Processing:</strong> Multispectral Sentinel-2 satellite imagery was queried via the Earth Search STAC catalog[cite: 17]. The Near-Infrared (NIR) and Red bands were processed streaming-style to compute the Normalized Difference Vegetation Index (NDVI)[cite: 17]:</li>
+        </ul>
+        <p style="text-align: center; font-weight: bold;">NDVI = (NIR - Red) / (NIR + Red)</p>
+        <ul>
+            <li><strong>Zonal Statistics:</strong> Mean NDVI values were calculated per polygon geometry using spatial clipping to quantify vegetation density across redlining grades[cite: 17].</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Visualizations & Results</h2>
+        
+        <h3>1. Modern Canopy Coverage (NDVI)</h3>
+        <img src="ndvi_plot.png" alt="NDVI Vegetation Map of Oakland">
+        <p class="caption">Figure 1: Sentinel-2 derived NDVI map over Oakland. Darker green indicates dense vegetation canopy, while lighter shades highlight urban built environment.</p>
+
+        <h3>2. Mean Vegetation by HOLC Grade</h3>
+        <img src="bar_chart.png" alt="Bar Chart of Mean NDVI by Redlining Grade">
+        <p class="caption">Figure 2: Zonal mean NDVI scores across historical HOLC redlining grades in Oakland, demonstrating lower average vegetation in historically redlined ('D') areas.</p>
+    </div>
+
+    <div class="card">
+        <h2>Discussion & Key Takeaways</h2>
+        <p>Our quantitative findings support the conclusions of Schell et al[cite: 1]. The spatial distribution of vegetation in Oakland is not random; rather, historical HOLC grades assigned nearly a century ago continue to track modern urban canopy density[cite: 1]. Neighborhoods designated 'A' retain substantially higher tree canopy coverage (higher mean NDVI), while historically redlined 'D' neighborhoods exhibit lower vegetation density, contributing to elevated surface temperatures, reduced shade, and localized urban environmental injustice[cite: 1].</p>
+    </div>
+
+</body>
 </html>
